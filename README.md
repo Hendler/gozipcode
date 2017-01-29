@@ -56,6 +56,7 @@ func main(){
 
 - [ ] [zipcodes for all countries](http://stackoverflow.com/questions/308017/where-can-i-get-postal-codes-for-all-countries)
 - [ ] tests
+- [ ] configurable database location
 
 
 ## building
