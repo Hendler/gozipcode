@@ -1,7 +1,7 @@
 # gozipcode
 
 
-US ZipCode database, batteries included
+US ZipCode database, batteries included.
 
 go port of https://github.com/buckmaxwell/zipcode
 
@@ -51,6 +51,11 @@ func main(){
 }
 
 ```
+
+## TODO
+
+- [ ] [zipcodes for all countries](http://stackoverflow.com/questions/308017/where-can-i-get-postal-codes-for-all-countries)
+- [ ] tests
 
 
 ## building
