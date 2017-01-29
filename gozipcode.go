@@ -135,9 +135,14 @@ type Zipcode struct {
 
 // Takes a partial zip code and returns a list of zipcode objects with matching prefixes.
 func Islike(zipcode string) []*Zipcode {
+    valid := validate(zipcode)
+    if (!valid){
+        return nil
+    }
     rows, err := ZipCodeDB.Query("SELECT * FROM ZIPS WHERE ZIP_CODE LIKE ?", zipcode)
     if err != nil {
         fmt.Println(err)
+        return nil
     }
     defer rows.Close()
     zipcodes := make([]*Zipcode, 0)
@@ -164,6 +169,7 @@ func Islike(zipcode string) []*Zipcode {
             &zip_code.NOTES)
         if err != nil {
             fmt.Println(err)
+            return nil
         }
         zipcodes = append(zipcodes, zip_code)
     }
@@ -172,7 +178,10 @@ func Islike(zipcode string) []*Zipcode {
 
 
 func Isequal(zipcode string) *Zipcode{
-    //todo validate
+    valid := validate(zipcode)
+    if (!valid){
+        return nil
+    }
     row := ZipCodeDB.QueryRow("SELECT * FROM ZIPS WHERE ZIP_CODE == ?", zipcode)
     zip_code := new(Zipcode)
     err := row.Scan(&zip_code.ZIP_CODE,
@@ -207,7 +216,15 @@ func Isequal(zipcode string) *Zipcode{
 
 
 
-
+func validate(zipcode string) bool {
+    for _, value := range zipcode {
+        switch {
+        case value >= '0' && value <= '9':
+            return true
+        }
+    }
+    return false
+}
 
 
 // def _validate(zipcode):
