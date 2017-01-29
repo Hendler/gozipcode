@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	gozipcode.Init()
+
 	fmt.Print("EXACT MATCH --- \n")
 	zipcode := gozipcode.Isequal("04976")
 	fmt.Printf("%v\n", *zipcode)

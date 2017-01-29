@@ -27,6 +27,9 @@ var ZipCodeDBPath string = "/tmp/" + DATABASE_FILENAME
 var ZipCodeDB *sql.DB
 var is_initialized = false
 
+
+// Init is called automatically by each function
+// can be called explicitly
 func Init() {
 	// TODO optionally overide ZipCodeDBPath (can already by done since it's public)
 	// TODO optionally overwrite file if file exists
@@ -138,6 +141,7 @@ type Zipcode struct {
 
 // Takes a partial zip code and returns a list of zipcode objects with matching prefixes.
 func Islike(zipcode string) []*Zipcode {
+    Init()
 	valid := validate(zipcode)
 	if !valid {
 		return nil
@@ -180,6 +184,7 @@ func Islike(zipcode string) []*Zipcode {
 }
 
 func Isequal(zipcode string) *Zipcode {
+    Init()
 	valid := validate(zipcode)
 	if !valid {
 		return nil
@@ -217,6 +222,7 @@ func Isequal(zipcode string) *Zipcode {
 }
 
 func Isinradius(lat float64, long float64, miles float64) []*Zipcode {
+    Init()
 	dist_btwn_lon_deg := math.Cos(lat) * DISTANCE_BETWEEN_LAT_DEGREES
 	lat_degr_rad := miles / DISTANCE_BETWEEN_LAT_DEGREES
 	lon_degr_rad := miles / dist_btwn_lon_deg

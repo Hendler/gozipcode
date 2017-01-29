@@ -7,7 +7,7 @@ import (
 
 
 func setup(){
-    Init()
+
 }
 
 func tearDown(){
