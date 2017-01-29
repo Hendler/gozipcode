@@ -167,7 +167,7 @@ func Islike(zipcode string) []*Zipcode {
 			&zip_code.NOTES)
 		if err != nil {
 			fmt.Println(err)
-			return nil
+			return zipcodes
 		}
 		zipcodes = append(zipcodes, zip_code)
 	}

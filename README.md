@@ -55,9 +55,11 @@ func main(){
 ## TODO
 
 - [ ] [zipcodes for all countries](http://stackoverflow.com/questions/308017/where-can-i-get-postal-codes-for-all-countries)
-- [ ] tests
+- [ ] more tests
 - [ ] configurable database location
 - [ ] performance - confirm that `check_same_thread` is doing something useful
+- [ ] use `sql.NullString` in struct
+
 
 
 ## building

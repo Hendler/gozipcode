@@ -16,10 +16,22 @@ func main() {
 	}
 
 	fmt.Print("PREFIX --- \n")
-	zipcodes := gozipcode.Islike("0497%")
+
+	zipcodes :=  gozipcode.Islike("049734534534%")
+
+    if zipcodes != nil  {
+		for _, zipcode := range zipcodes {
+			fmt.Printf("%v\n", *zipcode)
+		}
+    }
+
+	zipcodes = gozipcode.Islike("0497%")
 	for _, zipcode := range zipcodes {
 		fmt.Printf("%v\n", *zipcode)
 	}
+
+
+
 
 	fmt.Print("RADIUS --- \n")
 	skow_lat := 44.77
