@@ -1,0 +1,7 @@
+package: github.com/Hendler/gozipcode
+import:
+- package: github.com/mattn/go-sqlite3
+  version: ^1.2.0
+- package: golang.org/x/net
+  subpackages:
+  - context
