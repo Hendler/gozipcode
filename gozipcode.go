@@ -55,6 +55,7 @@ func Cleanup(){
 
 const kmtomiles = float64(0.621371192)
 const earthRadius = float64(6371)
+const DISTANCE_BETWEEN_LAT_DEGREES float64 = 69.172
 
 /*
  * The haversine formula will calculate the spherical distance as the crow flies
@@ -215,6 +216,63 @@ func Isequal(zipcode string) *Zipcode{
 }
 
 
+func Isinradius(lat float64, long float64, miles float64) []*Zipcode {
+    dist_btwn_lon_deg := math.Cos(lat) * DISTANCE_BETWEEN_LAT_DEGREES
+    lat_degr_rad := miles / DISTANCE_BETWEEN_LAT_DEGREES
+    lon_degr_rad := miles / dist_btwn_lon_deg
+
+    latmin := lat  - lat_degr_rad
+    latmax := lat  + lat_degr_rad
+    lonmin := long - lon_degr_rad
+    lonmax := long + lon_degr_rad
+
+    if (latmin > latmax){
+         latmin, latmax = latmax, latmin
+    }
+    if (lonmin > lonmax){
+        lonmin, lonmax = lonmax, lonmin
+    }
+
+    stmt := "SELECT * FROM ZIPS WHERE LONG > ? AND LONG < ? AND LAT > ? AND LAT < ?"
+    rows, err := ZipCodeDB.Query(stmt, lonmin, lonmax, latmin, latmax)
+    if err != nil {
+        fmt.Println(err)
+        return nil
+    }
+    defer rows.Close()
+    zipcodes := make([]*Zipcode, 0)
+    for rows.Next() {
+        zip_code := new(Zipcode)
+        err = rows.Scan(&zip_code.ZIP_CODE,
+            &zip_code.ZIP_CODE_TYPE,
+            &zip_code.CITY,
+            &zip_code.STATE,
+            &zip_code.LOCATION_TYPE,
+            &zip_code.LAT,
+            &zip_code.LONG,
+            &zip_code.XAXIS,
+            &zip_code.YAXIS,
+            &zip_code.ZAXIS,
+            &zip_code.WORLD_REGION,
+            &zip_code.COUNTRY,
+            &zip_code.LOCATION_TEXT,
+            &zip_code.LOCATION,
+            &zip_code.DECOMMISIONED,
+            &zip_code.TAX_RETURNS_FILED,
+            &zip_code.ESTIMATED_POPULATION,
+            &zip_code.TOTAL_WAGES,
+            &zip_code.NOTES)
+        if err != nil {
+            fmt.Println(err)
+            return nil
+        }
+        if (Haversine(long, lat, zip_code.LONG, zip_code.LAT) <= miles){
+            zipcodes = append(zipcodes, zip_code)
+        }
+    }
+    return zipcodes
+}
+
 
 func validate(zipcode string) bool {
     for _, value := range zipcode {
@@ -226,12 +284,6 @@ func validate(zipcode string) bool {
     return false
 }
 
-
-// def _validate(zipcode):
-//     if not isinstance(zipcode, str):
-//         raise TypeError('zipcode should be a string')
-//     int(zipcode) # This could throw an error if zip is not made of numbers
-//     return True
 
 
 
