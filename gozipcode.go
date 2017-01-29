@@ -25,11 +25,15 @@ const ASSET_FULLPATH string = "data/" + DATABASE_FILENAME
 
 var ZipCodeDBPath string = "/tmp/" + DATABASE_FILENAME
 var ZipCodeDB *sql.DB
+var is_initialized = false
 
 func Init() {
 	// TODO optionally overide ZipCodeDBPath (can already by done since it's public)
 	// TODO optionally overwrite file if file exists
 	// maybe there's a better way to distribute the SQLite file?
+    if is_initialized {
+        return
+    }
 	dbdata, err := data.Asset(ASSET_FULLPATH)
 	if err != nil {
 		fmt.Println(err)
@@ -48,6 +52,7 @@ func Init() {
 		fmt.Println(err)
 		return
 	}
+    is_initialized = true
 }
 
 func Cleanup() {
