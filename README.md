@@ -13,6 +13,10 @@ go port of https://github.com/buckmaxwell/zipcode
 
 ## usage
 
+Building the example
+
+    go build -o $GOBIN/gozipcode-example example/main.go
+
 
 
 ## building
