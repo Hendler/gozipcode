@@ -76,6 +76,9 @@ gozipcode optionally uses [Glide](https://github.com/Masterminds/glide) (`glide.
 In `glide.yaml`
 
     github.com/mattn/go-sqlite3
+
+## investigate
+
     github.com/golang/geo
 
 ## notes
